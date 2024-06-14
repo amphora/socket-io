@@ -28,9 +28,13 @@ module SocketIO
 
     protected
 
-    def block_until(&block)
+    # Blocks until the given block returns true, or until the timeout is reached
+    # @param [Float] timeout The maximum number of seconds to wait before raising an error
+    def block_until(timeout: 5, &block)
+      init_time = Time.now
       until yield
         sleep 0.1
+        raise(TimeoutError, "Timed out waiting for block to return true") if Time.now - init_time > timeout
       end
     end
   end

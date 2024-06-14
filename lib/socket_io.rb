@@ -9,5 +9,6 @@ require_relative 'socket_io/socket_io'
 
 module SocketIO
   class Error < StandardError; end
-  # Your code goes here...
+
+  class TimeoutError < Error; end
 end
