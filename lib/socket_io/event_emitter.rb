@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'faye/websocket'
 
 module SocketIO
   module EventEmitter

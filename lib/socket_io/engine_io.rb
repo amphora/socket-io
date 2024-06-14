@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'faye/websocket'
+require 'eventmachine'
 
 module SocketIO
   class EngineIO
