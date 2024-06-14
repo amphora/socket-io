@@ -19,10 +19,11 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-23
 
 DEPENDENCIES
   rake (~> 13.0)
   socket_io!
 
 BUNDLED WITH
-   2.2.32
+   2.5.3

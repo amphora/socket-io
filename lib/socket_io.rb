@@ -2,7 +2,7 @@
 
 require_relative "socket_io/version"
 
-module SocketIo
+module SocketIO
   class Error < StandardError; end
   # Your code goes here...
 end
