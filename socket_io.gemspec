@@ -4,7 +4,7 @@ require_relative "lib/socket_io/version"
 
 Gem::Specification.new do |spec|
   spec.name = "socket_io"
-  spec.version = SocketIo::VERSION
+  spec.version = SocketIO::VERSION
   spec.authors = ["Joshua Coles"]
   spec.email = ["josh@coles.to"]
 
