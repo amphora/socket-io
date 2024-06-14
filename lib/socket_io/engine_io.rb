@@ -1,6 +1,7 @@
 # frozen_string_literal: true
-require 'faye/websocket'
-require 'eventmachine'
+
+require "faye/websocket"
+require "eventmachine"
 
 module SocketIO
   class EngineIO
@@ -21,7 +22,7 @@ module SocketIO
         pong: 3,
         message: 4,
         upgrade: 5,
-        noop: 6,
+        noop: 6
       }
 
       INVERTED_PACKET_MAP = PACKET_MAP.invert
@@ -29,7 +30,7 @@ module SocketIO
 
     Packet = Struct.new(:type, :data) do
       def encode_packet
-        "#{PacketTypes::PACKET_MAP[self.type]}#{self.data}"
+        "#{PacketTypes::PACKET_MAP[type]}#{data}"
       end
 
       def self.decode_packet(data)
@@ -81,8 +82,6 @@ module SocketIO
         send_packet(Packet[PacketTypes::PONG])
       when PacketTypes::MESSAGE
         emit(:message, packet.data)
-      else
-        return
       end
     end
 

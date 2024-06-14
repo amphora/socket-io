@@ -5,10 +5,10 @@ module SocketIO
     include EventEmitter
     Packet = Struct.new(:type, :namespace, :payload, :ack_id) do
       def encode_packet
-        encoded_type = PacketTypes::PACKET_MAP[self.type]
-        encoded_namespace = self.namespace == "/" ? "" : "#{self.namespace},"
-        encoded_payload = JSON.dump(self.payload || {})
-        "#{encoded_type}#{self.ack_id}#{encoded_namespace}#{encoded_payload}"
+        encoded_type = PacketTypes::PACKET_MAP[type]
+        encoded_namespace = (namespace == "/") ? "" : "#{namespace},"
+        encoded_payload = JSON.dump(payload || {})
+        "#{encoded_type}#{ack_id}#{encoded_namespace}#{encoded_payload}"
       end
 
       def self.decode_packet(data)
@@ -31,7 +31,7 @@ module SocketIO
           namespace = "/"
         end
 
-        payload = JSON.load(data[i..])
+        payload = JSON.parse(data[i..])
         Packet.new(
           type:,
           namespace:,
@@ -57,7 +57,7 @@ module SocketIO
         ack: 3,
         error: 4,
         binary_event: 5,
-        binary_ack: 6,
+        binary_ack: 6
       }
 
       INVERTED_PACKET_MAP = PACKET_MAP.invert
@@ -119,7 +119,7 @@ module SocketIO
         emit(:"ack_#{ack_id}", namespace, data)
         emit(:ack, ack_id, namespace, data)
       else
-        return
+        nil
       end
     end
   end
