@@ -27,11 +27,12 @@ module SocketIO
       returned
     end
 
-    protected
 
     def can_make_progress?
       true
     end
+
+    protected
 
     # Blocks until the given block returns true, or until the timeout is reached
     # @param [Float] timeout The maximum number of seconds to wait before raising an error

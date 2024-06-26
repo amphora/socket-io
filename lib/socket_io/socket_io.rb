@@ -99,8 +99,6 @@ module SocketIO
       @connected
     end
 
-    protected
-
     def can_make_progress?
       @engine.can_make_progress?
     end
