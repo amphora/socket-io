@@ -12,4 +12,7 @@ module SocketIO
   class Error < StandardError; end
 
   class TimeoutError < Error; end
+
+  # Raised when the emitter can make no more progress and is finished, for example if the websocket is closed
+  class UnexpectedEmitterFinishError < Error; end
 end

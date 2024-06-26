@@ -95,5 +95,11 @@ module SocketIO
       p [:engine, :send, packet] if @debug_logging
       @ws.send(packet.encode_packet)
     end
+
+    protected
+
+    def can_make_progress?
+      @ws.ready_state != Faye::WebSocket::API::CLOSED
+    end
   end
 end

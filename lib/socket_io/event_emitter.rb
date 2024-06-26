@@ -29,12 +29,17 @@ module SocketIO
 
     protected
 
+    def can_make_progress?
+      true
+    end
+
     # Blocks until the given block returns true, or until the timeout is reached
     # @param [Float] timeout The maximum number of seconds to wait before raising an error
-    def block_until(timeout: 5, &block)
+    def block_until(timeout: 5)
       init_time = Time.now
       until yield
         sleep 0.1
+        raise(UnexpectedEmitterFinishError, "Emitter can make no more progress") unless can_make_progress?
         raise(TimeoutError, "Timed out waiting for block to return true") if Time.now - init_time > timeout
       end
     end
