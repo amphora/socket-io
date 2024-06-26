@@ -40,9 +40,10 @@ module SocketIO
     end
     attr_reader :thread, :ws
 
-    def initialize(hostname)
+    def initialize(hostname, debug_logging: false)
       super()
 
+      @debug_logging = debug_logging
       @thread = Thread.new do
         EM.run do
           @ws = Faye::WebSocket::Client.new("ws://#{hostname}/socket.io/?EIO=4&transport=websocket")
@@ -72,6 +73,7 @@ module SocketIO
     end
 
     def receive_packet(packet)
+      p [:engine, :recv, packet] if @debug_logging
       case packet.type
       when PacketTypes::OPEN
         emit(:open)
@@ -90,6 +92,7 @@ module SocketIO
     end
 
     def send_packet(packet)
+      p [:engine, :send, packet] if @debug_logging
       @ws.send(packet.encode_packet)
     end
   end

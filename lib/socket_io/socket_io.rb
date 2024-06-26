@@ -3,7 +3,7 @@
 module SocketIO
   class SocketIO
     include EventEmitter
-    Packet = Struct.new(:type, :namespace, :payload, :ack_id) do
+    Packet = Struct.new(:type, :namespace, :payload, :ack_id, keyword_init: true) do
       def encode_packet
         encoded_type = PacketTypes::PACKET_MAP[type]
         encoded_namespace = (namespace == "/") ? "" : "#{namespace},"
@@ -33,10 +33,10 @@ module SocketIO
 
         payload = JSON.parse(data[i..])
         Packet.new(
-          type:,
-          namespace:,
-          payload:,
-          ack_id:
+          type: type,
+          namespace: namespace,
+          payload: payload,
+          ack_id: ack_id
         )
       end
     end
@@ -65,9 +65,9 @@ module SocketIO
 
     attr_reader :engine
 
-    def initialize(url)
+    def initialize(url, debug_logging: false)
       super()
-      @engine = EngineIO.new(url)
+      @engine = EngineIO.new(url, debug_logging: debug_logging)
       @sid = {}
       @ack_counter = 1
 
@@ -103,7 +103,7 @@ module SocketIO
 
     def receive_packet(packet)
       if packet.ack_id
-        send_packet(Packet[PacketTypes::ACK, packet.namespace, [], packet.ack_id])
+        send_packet(Packet.new(type: PacketTypes::ACK, namespace: packet.namespace, payload: [], ack_id: packet.ack_id))
       end
 
       case packet
